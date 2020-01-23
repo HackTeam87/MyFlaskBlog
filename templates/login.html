@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="main-card mb-3 card">
+  <div class="card-body">
+    <h5 class="card-title">Admin</h5>
+      <form class="" action="/login" method="post"> 
+        <div class="form-row">
+          <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+            <div class="position-relative form-group">
+              <label for="exampleEmail11" class="">Login</label>
+                <input name="login"  placeholder="login" type="text"class="form-control">
+    </div>
+</div>
+                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                    <div class="position-relative form-group">
+                        <label for="examplePassword11" class="">Password</label>
+                            <input name="password"  placeholder="password" type="password" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <button class="mt-2 btn btn-primary">Login</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

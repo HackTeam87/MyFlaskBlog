@@ -1,0 +1,30 @@
+<!-- Modal -->
+{% for articles in article %}
+<div class="modal fade" id="exampleModal{{ articles.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete the article "{{ articles.title }}" ?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#">
+                <i class="fa fa-sign-out" style="font-size:1.7em;color:#00FF00;margin: 0 4px 0 4px;" data-dismiss="modal"></i>
+                </a>
+               
+                <a href="/blog/delete-post={{ articles.id }}">
+                <i class="fa fa-trash" style="font-size:1.7em;color:#f11c4f;margin: 0 4px 0 4px;"></i>
+                </a>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endfor %}

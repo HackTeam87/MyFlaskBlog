@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="col-xs-9 col-sm-10 col-md-12 col-lg-12">
+    <div class="main-card mb-3 card">
+        <div class="card-body ">
+          <h5 class="card-title">vlan-list</h5>
+            <table class="mb-0 table table-striped" id='vlanT'>
+                
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Type</th>
+                                                <th>Name</th>
+                                                <th>StartIP</th>
+                                                <th>StopIP</th>
+                                                <th>Gateway</th>
+                                                <th>Mask</th>
+                                                <th>Vlan Ids</th>
+                                                <th>count bindings</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                               
+                                                
+                                                 {% for a in cursor %}
+                                                <tr>
+                                                <th scope="row">{{a[0]}}</th>
+                                                <td> {{a[1]}}</td>
+                                                <td> {{a[2]}}</t>
+                                                <td> {{a[3]}}</td>
+                                                <td> {{a[4]}}</td>
+                                                <td> {{a[5]}}</td>
+                                                <td> {{a[6]}}</td>
+                                                <td> {{a[7]}}</td>
+                                                <td> {{a[8]}}</td>
+                                                <td> {{a[9]}}</td>
+                                                </tr>
+                                                  {% endfor  %}
+                                                
+                                                
+                                            </tbody>
+
+                                        </table>
+<script>
+$(document).ready(function() {
+    $('#vlanT').DataTable( {
+        "language": {
+            "lengthMenu": "Отображено _MENU_ записей на странице",
+            "zeroRecords": "К сожалению, записей не найдено",
+            "info": "Показана  страница _PAGE_ с _PAGES_",
+            "infoEmpty": "Нет записей",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+                        "search": "Живой фильтр:",
+                        "paginate": {
+                                "first":      "Первая",
+                                "last":       "Последняя",
+                                "next":       "Следующая",
+                                "previous":   "Предыдущая"
+                        },
+        },
+        "scrollX": true,
+        "scrollCollapse": true,
+        "sScrollXInner": "100%",
+        "xScrollXInner": "100%",
+                "lengthMenu": [[ 50,100, -1], [50, 100, 500, "Все"]]
+    });
+});
+</script>
+
+
+
+
+          </div>
+     </div>
+</div>
+                      
+{% endblock %}

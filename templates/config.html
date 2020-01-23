@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div class="card-body ">
+          <h5 class="card-title">add info</h5>
+            <form class="" action="/get-config" method="post">
+                <div class="position-relative form-group">
+                    <input name="vlanext"  placeholder="vlanExt" type="text" class="form-control">
+                    <input name="vlanextid"  placeholder="vlanExtId" type="text" class="form-control">
+                    <input name="vlannat"  placeholder="vlanNat" type="text" class="form-control">
+                    <input name="vlannatid"  placeholder="vlanNatId" type="text" class="form-control">
+                    <input name="vlanfake"  placeholder="vlanFake" type="text" class="form-control">
+                    <input name="vlanfakeid"  placeholder="vlanFakeId" type="text" class="form-control">
+                    <input name="vlansw"  placeholder="vlanSw" type="text" class="form-control">
+                    <input name="vlanswid"  placeholder="vlanSwId" type="text" class="form-control">
+                    <input name="ip"  placeholder="10.0.0.0" type="text" class="form-control">
+                </div>
+                    <button class="mt-1 btn btn-info">Get</button>
+            </form>
+        </div>
+</div>
+
+
+{% endblock %}
+

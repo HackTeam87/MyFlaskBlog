@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="main-card mb-3 card">
+        <div class="card-body ">
+          <h5 class="card-title">sw-list</h5>
+            <form class="" action="/switch-update" method="post">
+            <table class="mb-0 table table-striped" id='myT'>
+                <thead>
+                <tr>
+                    <th>№_sw</th>
+                    <th>Ip</th>
+                    <th>Location</th>
+                    <th>Presence</th>
+                    <th>Fixed Vlan</th>
+                    <th>Model</>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in cursor %}
+                <tr>
+
+                    <th scope="row">
+                        <input name="id" value="{{ i[0] }}" type="hidden" class="form-control">
+                        <select name="sw" type="text" class="form-control">
+                            <option   selected>{{i[1]}}</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </th>
+                    <td><input name="ip" value="{{ i[2] }}" type="text" class="form-control"></td>
+                    <td><input name="location" value="{{ i[3] }}" type="text" class="form-control"></td>
+                    <td>
+                    
+                        <select name="presence"   type="text" class="form-control">
+                            <option   selected>{{i[4]}}</option>
+                            <option>-</option>
+                            <option>+</option>
+                        </select>
+
+                    </td>
+                    <td><input name="fvlan" value="{{ i[5] }}" type="text" class="form-control"></td>
+                    <td><input name="model" value="{{ i[6] }}" type="text" class="form-control"></td>
+
+                </tr>
+                 {% endfor %}
+                </tbody>
+            </table>
+         
+                    <button class="mt-1 btn btn-info">Save</button>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}

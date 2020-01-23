@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div class="tab-content">
+    <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                      <h5 class="card-title">Edit-Post</h5>
+                       {% for i in post %}
+                        <form action="/blog/post-edit={{i.id}}" method="post" enctype="multipart/form-data"  >
+                           <input name="title" value="{{ i.title|safe }}"  placeholder="title" type="text" class="form-control">
+                           <textarea name="body" id="editor" type="text" rows="5" class=""></textarea>
+                           <input name="image" id="file"  type="file" class="form-control-file">
+                            </div>
+                            <button class="mt-1 btn btn-info" type="submit">Add</button>
+                        </form>
+                       <script>document.getElementById("editor").value = "{{ i.body|safe }}";</script>
+                       {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <script>
+                       
+ ClassicEditor
+        
+       .create( document.querySelector( '#editor' ),{
+       ckfinder: {
+        uploadUrl: 'static/img/blogimgage/ckeditor'
+    } }
+)
+                               
+        .then( editor => { console.log( editor );  } )
+                                .catch( error => {
+                                        console.error( error );
+                                } );
+ </script>
+
+
+
+{% endblock  %}

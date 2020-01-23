@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="main-card mb-3 card">
+        <div class="card-body ">
+          <h5 class="card-title">sw-list</h5>
+            <table class="mb-0 table table-striped" id='myT'>
+                <thead>
+                <tr>
+                    <th>№_sw</th>
+                    <th>Ip</th>
+                    <th>Location</th>
+                    <th>Presence</th>
+                    <th>Fixed Vlan</th>
+                    <th>Model</>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in cursor %}
+                <tr>
+                   
+                    <th scope="row">{{ i[1] }}</th>
+                    <td>{{ i[2] }}</td>
+                    <td>{{ i[3] }}</td>
+                    <td>{{ i[4] }}</td>
+                    <td>{{ i[5] }}</td>
+                    <td>{{ i[6] }}</td>
+                    <td><a href="switch-edit={{ i[0] }}"><i class='fas fa-pencil-alt' style='font-size:20px;color:#CF09A5'></i></a></td>
+
+                </tr>
+                 {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+<div class="card-body ">
+          <h5 class="card-title">add switch</h5>
+            <form class="" action="/switch-add" method="post">
+                <div class="position-relative form-group">
+                    
+                    <select name="sw" id="sw" placeholder="№_sw" type="text" class="form-control">
+                      <option   selected>---</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                    </select>
+
+                    <input name="ip" id="ip" placeholder="10.0.0.0" type="text" class="form-control">
+
+                    <input name="location" id="location" placeholder="location" type="text" class="form-control">
+                     
+                    <select name="presence" id="precence" placeholder="presence" type="text" class="form-control">
+                      <option    selected>---</option>
+                      <option>-</option>
+                      <option>+</option>
+                    </select>
+
+                    <input name="fvlan" id="fvlan" placeholder="fixed-vlan" type="text" class="form-control">
+
+                    <input name="model" id="model" placeholder="model" type="text" class="form-control">
+                </div>
+
+                    <button class="mt-1 btn btn-info">Save</button>
+            </form>
+        </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#myT').DataTable( {
+        "language": {
+            "lengthMenu": "Отображено _MENU_ записей на странице",
+            "zeroRecords": "К сожалению, записей не найдено",
+            "info": "Показана  страница _PAGE_ с _PAGES_",
+            "infoEmpty": "Нет записей",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+                        "search": "Живой фильтр:",
+                        "paginate": {
+                                "first":      "Первая",
+                                "last":       "Последняя",
+                                "next":       "Следующая",
+                                "previous":   "Предыдущая"
+                        },
+        },
+        "scrollX": true,
+        "scrollCollapse": true,
+        "sScrollXInner": "100%",
+        "xScrollXInner": "100%",
+                "lengthMenu": [[ 15,50,100, -1], [15, 50, 100, "Все"]]
+    });
+});
+</script>
+{% endblock %}

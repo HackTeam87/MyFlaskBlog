@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div class="card-body ">
+          <h5 class="card-title">add command</h5>
+            <form class="" action="/vagrant" method="post">
+                <div class="position-relative form-group">
+                    <input name="ip"  placeholder="10.0.0.0" type="text" class="form-control">
+                    <textarea name="command"  placeholder="command" rows="4"  type="text" class="form-control"></textarea>
+                </div>
+                    <button class="mt-1 btn btn-info">Push</button>
+            </form>
+        </div>
+</div>
+
+
+{% endblock %}
+

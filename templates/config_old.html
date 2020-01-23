@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% block content %}
+
+ <div class="col-lg-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                        <h5 class="card-title">GET_Config</h5>
+                          <form action="/get-config" method="post">
+                            <table class="mb-0 table table-responsive">
+                                <thead>
+                                <tr>
+                                  
+                                    <th>VlanExt</th>
+                                    <th>VlanExtId</th>
+                                    <th>VlanNat</th>
+                                    <th>VlanNatId</th>
+                                    <th>VlanFake</th>
+                                    <th>VlanFakeId</th>
+                                    <th>VlanSw</th>
+                                    <th>VlanSwId</th>
+                                    <th>Ip</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlanext" placeholder="VlanExt" type="text" class="form-control">
+                                        </div>
+                                    </td> 
+
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlanextid" placeholder="VlanExtId" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlannat" placeholder="VlanNat" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlannatid" placeholder="VlanNatId" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+                                     <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlanfake" placeholder="VlanFake" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlanfakeid" placeholder="VlanFakeId" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlansw" placeholder="VlanSw" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="vlanswid" placeholder="VlanSwId" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+
+                                    <td>
+                                        <div class="input-group col-sm-12">
+                                            <input name="ip" placeholder="10.0.0.0" type="text" class="form-control">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+                                <div class="input-group-append">
+                                    <button type="submit"  class="btn btn-info">Generate</button>
+                                  </div>
+                                </tbody>
+                           </form>
+                        </div>
+                    </div>
+                </div>
+
+{% endblock %}

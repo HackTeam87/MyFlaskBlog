@@ -1,0 +1,222 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+
+pre{background-color:rgba(0, 0, 0, 0.9);color:white;font-size:1em;}
+span{color:#7DE829 ;}
+.c-inner{margin: 0 0 0 20% ;}
+
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <pre>
+        <div class="c-inner">
+          <code>
+#----------------------------------------------------------------------------------#
+#                       DES-3200-28 Configuration                                  #
+#                                                                                  #
+#                       Firmware: Build 1.91.B003                                  #
+#        Copyright(C) 2010 D-Link Corporation. All rights reserved.                #
+#----------------------------------------------------------------------------------#
+
+# BASIC
+config serial_port baud_rate 9600 auto_logout 10_minutes
+# ACCOUNT LIST
+create account admin grin
+*@&6k/CgqdY2GOtg5/1CIp5awOFscNLPGYI
+*@&6k/CgqdY2GOtg5/1CIp5awOFscNLPGYI
+
+create account admin primyk
+*@&WOQOcCUYAw/If16otEiGX7k00Maz+MdM
+*@&WOQOcCUYAw/If16otEiGX7k00Maz+MdM
+
+create account admin service
+*@&rNFMemwEwd1txsLWbUh6KGZ8CtZaYVYr
+*@&rNFMemwEwd1txsLWbUh6KGZ8CtZaYVYr
+# ACCOUNT END
+
+# PASSWORD ENCRYPTION
+enable password encryption
+config terminal_line default
+enable clipaging
+enable command logging
+enable password_recovery
+
+# LOOP_DETECT
+enable loopdetect
+config loopdetect recover_timer 60
+config loopdetect interval 10
+config loopdetect mode vlan-based
+config loopdetect trap both
+config loopdetect ports 1-24 state enabled
+config loopdetect ports 25,26,27,28 state disabled
+
+# DDM
+config ddm trap disable
+config ddm log enable
+config ddm ports 25,26,27,28 state enable shutdown none
+
+# MANAGEMENT
+create trusted_host 185.190.150.7
+create trusted_host 185.190.150.8
+create trusted_host 185.190.150.77
+enable snmp traps
+enable snmp authenticate_traps
+enable snmp linkchange_traps
+config snmp linkchange_traps ports 25,26,27,28 enable
+config snmp linkchange_traps ports 1-24 disable
+config snmp system_contact asusgrin@gmail.com
+enable rmon
+
+# SNMPv3
+delete snmp community public
+delete snmp community private
+delete snmp user initial
+delete snmp group initial
+delete snmp view restricted all
+delete snmp view CommunityView all
+delete snmp group public
+delete snmp group private
+delete snmp group ReadGroup
+delete snmp group WriteGroup
+config snmp engineID 800000ab031cbdb9470460
+create snmp view restricted 1.3.6.1.2.1.1 view_type included
+create snmp view restricted 1.3.6.1.2.1.11 view_type included
+create snmp view restricted 1.3.6.1.6.3.10.2.1 view_type included
+create snmp view restricted 1.3.6.1.6.3.11.2.1 view_type included
+create snmp view restricted 1.3.6.1.6.3.15.1.1 view_type included
+create snmp view CommunityView 1 view_type included
+create snmp view CommunityView 1.3.6.1.6.3 view_type excluded
+create snmp view CommunityView 1.3.6.1.6.3.1 view_type included
+create snmp group billing v1 read_view CommunityView write_view CommunityView notify_view CommunityView
+create snmp group billing v2c read_view CommunityView write_view CommunityView notify_view CommunityView
+create snmp group initial v3  noauth_nopriv read_view restricted notify_view restricted
+create snmp group ReadGroup v1 read_view CommunityView notify_view CommunityView
+create snmp group ReadGroup v2c read_view CommunityView notify_view CommunityView
+create snmp group WriteGroup v1 read_view CommunityView write_view CommunityView notify_view CommunityView
+create snmp group WriteGroup v2c read_view CommunityView write_view CommunityView notify_view CommunityView
+create snmp community billing view CommunityView read_write
+create snmp user initial initial
+disable community_encryption
+
+# DEBUG_HANDLER
+debug config error_reboot enable
+
+# VLAN
+disable asymmetric_vlan
+enable pvid auto_assign
+config vlan default delete 1-24,25,26,27,28
+config vlan default advertisement disable
+create vlan <span>{{ vlanext }} </span> tag <span> {{ vlanextid }} </span> advertisement
+create vlan <span>{{ vlannat }} </span> tag <span> {{ vlannatid }} </span> advertisement
+create vlan <span>{{ vlanfake }}</span> tag <span> {{ vlanfakeid }}</span> advertisement
+create vlan <span>{{ vlansw }}  </span> tag <span> {{ vlanswid }}  </span> advertisement
+config vlan <span>{{ vlanext }} </span> add tagged 25,26,27,28
+config vlan <span>{{ vlannat }} </span> add tagged 25,26,27,28
+config vlan <span>{{ vlannat }} </span> add untagged 1-24
+config vlan <span>{{ vlanfake }}</span> add tagged 25,26,27,28
+config vlan <span>{{ vlansw }}  </span> add tagged 25,26,27,28
+
+#BPDU
+enable bpdu_protection
+config bpdu_protection recovery_timer 300
+config bpdu_protection log attack_detected
+config bpdu_protection ports 1-24 state enable
+config bpdu_protection ports 1-24 mode drop
+config bpdu_protection ports 25,26,27,28 mode shutdown
+
+# ACL
+create access_profile  ip  udp src_port_mask 0xFFFF    profile_id 1
+config access_profile profile_id 1  add access_id 1  ip  udp src_port 67  port 25 permit
+config access_profile profile_id 1  add access_id 2  ip  udp src_port 67  port 1 deny
+config access_profile profile_id 1  add access_id 3  ip  udp src_port 67  port 2 deny
+config access_profile profile_id 1  add access_id 4  ip  udp src_port 67  port 3 deny
+config access_profile profile_id 1  add access_id 5  ip  udp src_port 67  port 4 deny
+config access_profile profile_id 1  add access_id 6  ip  udp src_port 67  port 5 deny
+config access_profile profile_id 1  add access_id 7  ip  udp src_port 67  port 6 deny
+config access_profile profile_id 1  add access_id 8  ip  udp src_port 67  port 7 deny
+config access_profile profile_id 1  add access_id 9  ip  udp src_port 67  port 8 deny
+config access_profile profile_id 1  add access_id 10  ip  udp src_port 67  port 9 deny
+config access_profile profile_id 1  add access_id 11  ip  udp src_port 67  port 10 deny
+config access_profile profile_id 1  add access_id 12  ip  udp src_port 67  port 11 deny
+config access_profile profile_id 1  add access_id 13  ip  udp src_port 67  port 12 deny
+config access_profile profile_id 1  add access_id 14  ip  udp src_port 67  port 13 deny
+config access_profile profile_id 1  add access_id 15  ip  udp src_port 67  port 14 deny
+config access_profile profile_id 1  add access_id 16  ip  udp src_port 67  port 15 deny
+config access_profile profile_id 1  add access_id 17  ip  udp src_port 67  port 16 deny
+config access_profile profile_id 1  add access_id 18  ip  udp src_port 67  port 17 deny
+config access_profile profile_id 1  add access_id 19  ip  udp src_port 67  port 18 deny
+config access_profile profile_id 1  add access_id 20  ip  udp src_port 67  port 19 deny
+config access_profile profile_id 1  add access_id 21  ip  udp src_port 67  port 20 deny
+config access_profile profile_id 1  add access_id 22  ip  udp src_port 67  port 21 deny
+config access_profile profile_id 1  add access_id 23  ip  udp src_port 67  port 22 deny
+config access_profile profile_id 1  add access_id 24  ip  udp src_port 67  port 23 deny
+config access_profile profile_id 1  add access_id 25  ip  udp src_port 67  port 24 deny
+create access_profile  ip  tcp dst_port_mask 0xFFFF    profile_id 2
+config access_profile profile_id 2  add access_id 1  ip  tcp dst_port 135  port 1-24 deny
+config access_profile profile_id 2  add access_id 2  ip  tcp dst_port 139  port 1-24 deny
+config access_profile profile_id 2  add access_id 3  ip  tcp dst_port 369  port 1-24 deny
+config access_profile profile_id 2  add access_id 4  ip  tcp dst_port 445  port 1-24 deny
+config access_profile profile_id 2  add access_id 5  ip  tcp dst_port 593  port 1-24 deny
+config access_profile profile_id 2  add access_id 6  ip  tcp dst_port 2869  port 1-24 deny
+config access_profile profile_id 2  add access_id 7  ip  tcp dst_port 5000  port 1-24 deny
+create access_profile  ip  udp dst_port_mask 0xFFFF    profile_id 3
+config access_profile profile_id 3  add access_id 1  ip  udp dst_port 137  port 1-24 deny
+config access_profile profile_id 3  add access_id 2  ip  udp dst_port 138  port 1-24 deny
+config access_profile profile_id 3  add access_id 3  ip  udp dst_port 1900  port 1-24 deny
+disable cpu_interface_filtering
+
+# SNTP
+enable sntp
+config time_zone operator + hour 2 min 0
+config sntp primary  <span>{{ gateway }}</span> secondary 0.0.0.0 poll-interval 3600
+config dst annual s_date 30 s_mth 3 s_time 0:0 e_date 30 e_mth 10 e_time 0:0 offset 60
+
+# DOS_PREVENTION
+disable dos_prevention trap_log
+config dos_prevention dos_type land_attack action drop state enable
+config dos_prevention dos_type blat_attack action drop state enable
+config dos_prevention dos_type smurf_attack action drop state enable
+config dos_prevention dos_type tcp_null_scan action drop state enable
+config dos_prevention dos_type tcp_xmascan action drop state enable
+config dos_prevention dos_type tcp_synfin action drop state enable
+config dos_prevention dos_type tcp_syn_srcport_less_1024 action drop state enable
+
+# DHCP_SERVER_SCREENING
+config filter dhcp_server ports 1-24 state enable
+config filter dhcp_server ports 25,26,27,28 state disable
+config filter dhcp_server illegal_server_log_suppress_duration 30min
+config filter dhcp_server trap disable
+config filter dhcp_server log enable
+
+# IP
+config ipif System vlan <span>{{ vlansw }}</span> ipaddress <span>{{ ip }}</span>/24 state enable
+enable telnet 23
+enable web 80
+disable autoconfig
+config autoconfig timeout 50
+
+# ROUTE
+create iproute default <span>{{ gateway }}</span> 1
+
+#----------------------------------------------------------------------------------#
+#             End of configuration file for DES-3200-28                            #
+#----------------------------------------------------------------------------------#
+
+</code>
+  </div>
+    </pre>
+      </div>
+        </div>
+          </div>  
+
+
+{% endblock %}
