@@ -41,14 +41,8 @@ def json():
     return jsonify(results)
 
 
-
-
-
-
-
-@posts.route('/',methods = ['GET', 'POST'])
-@posts.route('/blog/',methods = ['GET', 'POST'])
-def ps():
+@posts.route('/')
+def allp():
     q = request.args.get('g')
 
     page = request.args.get('page')
@@ -64,7 +58,17 @@ def ps():
     pages = posts.paginate(page=page, per_page=5)
    # article = Post.query.order_by(desc(Post.created)).paginate(page, POSTS_PER_PAGE, False).items
 
-    return render_template('posts/posts.html', posts=posts, pages=pages )
+    return render_template('posts/all-posts.html', posts=posts, pages=pages )
+
+
+
+
+
+@posts.route('/blog/one-post=<int:id>',methods = ['GET', 'POST'])
+def ps(id):
+    articles = Post.query.filter(Post.id == id)
+
+    return render_template('posts/posts.html', articles=articles )
 
 
 
