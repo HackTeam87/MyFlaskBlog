@@ -7,7 +7,6 @@
     <meta http-equiv="Content-Language" content="en"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-
      {% if title %}
         <title>{{ title }} - GrinBlog</title>
         {% else %}
@@ -15,33 +14,25 @@
      {% endif %}
 
 
-     {% with messages = get_flashed_messages(with_categories=true) %}
-         {% if messages %}
-             <ul class=flashes>
-                 {% for category, message in messages %}
-                     <li class="{{ category }}">{{ message }}</li>
-                 {% endfor %}
-             </ul>
-         {% endif %}
-     {% endwith %}
-
     <meta name="viewport"content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
     <meta name="description" content="Заметки системного администратора|System Administrator Notes"/>
     <meta name="msapplication-tap-highlight" content="no"/>
     <meta property="og:image" content="https://pbs.twimg.com/media/DzJ9uqGWsAIc_QA.jpg"/>
 
-    <link href="../static/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='css/main2.css') }}">
+   <!-- <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='css/custom.css') }}">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <!-- <script type="text/javascript" src="../static/js/jquery-1.4.2.min.js"></script> -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-    <script src="../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tinymce/tinymce.min.js') }}"></script>
   <!--  <link type="text/css" rel="stylesheet" href="../static/css/blue.css" /> -->
   <!--  <link type="text/css" rel="stylesheet" href="../static/css/print.css" media="print"/> -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
+
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
     <div class="app-header header-shadow">
         <div class="app-header__logo">
@@ -147,6 +138,15 @@
                                  Блог          
                               </a>
                                   <ul>
+
+                                     <li>
+                                       <a href="/" >
+                                          Главная
+                                        </a>
+                                      </li>
+
+
+                                     
                                      <li>
                                        <a href="/new-post" >
                                           Добавить статью
@@ -159,19 +159,65 @@
                                 Резюме
                             </a>
                         </li>
-                       
-                        <li>
-                            <a href="/generator" class="">
-                                <i class="fa fa-wrench"></i>
-                                Генератор конфига
+
+                         <li>
+                            <a href="/chart" class="">
+                                <i class="fa fa-line-chart" style="color:red;"></i>
+                                Графики
                             </a>
+
                         </li>
+
+                         <li>
+                            <a href="#" class="mm-active">
+                                <i class="fa fa-phone" style="color:red;"></i>
+                                Домофон
+                            </a>
+
+                            
+                             <ul>
+                              <li>
+                                <a href="/blog/phone" class="">
+                                  <i class="fas fa-city"></i>
+                                   Евросити
+                                 </a>
+                               </li>
+                             </ul>
+
+
+
+
+                        </li>
+                    
+
+                       <li>
+                             <a href="#" class="mm-active">
+                               <i class="fas fa-list"></i>
+                                NetworkManager
+                              </a>
+                                  <ul>
+                                     
+
+
+                                    <li>
+                                      <a href="/generator" class="">
+                                      <i class="fa fa-wrench"></i>
+                                      Генератор конфига
+                                      </a>
+                                    </li>
 
 
                         <li>
                             <a href="/switch-info" class="">
                                 <i class="fas fa-network-wired"></i>
                                 Свитч инфо
+                            </a>
+                        </li>
+         
+                        <li>
+                            <a href="/switch-vlan" class="">
+                                <i class="fas fa-network-wired"></i>
+                                Влан инфо
                             </a>
                         </li>
 
@@ -184,6 +230,13 @@
                             </a>
                         </li>
 
+                          <li>
+                            <a href="/olt/pon" class="">
+                                <i class="fa fa-arrows-alt"></i>
+                                PON
+                            </a>
+                        </li>
+
 
                         <li>
                             <a href="/shell" class="">
@@ -191,6 +244,14 @@
                                 Бродилка
                             </a>
                         </li>
+
+
+
+                                   </ul>
+                        <li>
+
+
+
 
 
                     </ul>
@@ -212,7 +273,6 @@
                     <div class="app-footer__inner">
                         <div class="app-footer-left">
                             <ul class="nav">
-
                                 <li class="nav-item">
                                     <a href="javascript:void(0);" class="nav-link">
                                         Grin
@@ -220,12 +280,12 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="app-footer-right">
+
+                       <div class="app-footer-right">
                             <ul class="nav">
+
                                 <li class="nav-item">
-                                    <a href="javascript:void(0);" class="nav-link">
-                                        Grin
-                                    </a>
+                                    <small class="copyright">2020 &copy; Yatsko Grigoriy © 2020</small>
                                 </li>
                             </ul>
                         </div>
@@ -233,17 +293,14 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript" src="../static/js/main.js"></script>
-       <!-- <script src="http://maps.google.com/maps/api/js?sensor=true"></script>--> 
-       <!-- <script type="text/javascript" src="../static/js/jquery-1.4.2.min.js"></script>--> 
-        <script type="text/javascrit"  src="../static/js/jquery.tipsy.js"></script> 
-        <script type="text/javascript" src="../static/js/cufon.yui.js"></script> 
-        <script type="text/javascript" src="../static/js/scrollTo.js"></script> 
-        <script type="text/javascript" src="../static/js/myriad.js"></script> 
-       <!--<script type="text/javascript"src="../static/js/jquery.colorbox.js"></script>-->
-       <!-- <script type="text/javascript" src="../static/js/custom.js"></script>-->
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.tipsy.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/cufon.yui.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/scrollTo.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/myriad.js') }}"></script>
     </div>
 </div>
+
+
 </body>
 
 {% include 'base-modal.html' %}

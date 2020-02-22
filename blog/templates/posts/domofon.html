@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% for i in domofon %}
+
+ <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12">
+
+{% if email == 'asusgrin@gmail.com' %} 
+    <h3>ADMIN</h3> 
+{% else %}
+    <h3>USER</h3>
+{% endif %}
+
+
+ <div class=" card-shadow-primary mb-3 card card-body border-primary">
+<ul>
+<tr>
+
+
+
+</tr>
+</ul>
+
+ <h3 class="card-title" style="text-align:center;letter-spacing:1px;color:#3f6ad8;font-size:1.3em;">{{i.title}}</h3>
+
+<hr>
+
+{% if i.image %}
+<a href="/static/img/blogimgage/{{i.image}}">
+<img src="/static/img/blogimgage/{{i.image}}" width="100%" height="55%" alt="lorem" class="img-fluid">
+</a>
+{% endif %}
+
+<p>{{i.body|safe}}</p>
+<hr>
+<p style="color:#3f6ad8;text-align:right;">{{i.created.strftime("%m/%d/%Y")}}</p>
+
+</div>
+ </div>
+
+
+{% endfor %}
+{% endblock %}
+

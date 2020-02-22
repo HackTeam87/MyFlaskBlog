@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid">
+<div class="row">
+<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" >
+    <div class="main-card mb-3 card">
+        <div class="card-body ">
+          <h5 class="card-title">switch-list</h5>
+           <hr>
+            <table class="mb-0 table table-info table-striped" id='myT'>
+                <thead>
+                <tr>
+                    <th>№_sw</th>
+                    <th>Ip</th>
+                    <th>Location</th>
+                    <th>Presence</th>
+                    <th>Fixed Vlan</th>
+                    <th>Model</>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in sw %}
+                <tr>
+                   
+                    <th scope="row">{{ i.sw }}</th>
+                    <td>{{ i.ip }}</td>
+                    <td>{{ i.location }}</td>
+                    <td>{{ i.presence }}</td>
+                    <td>{{ i.fixed_vlan }}</td>
+                    <td>{{ i.model }}</td>
+                    <td><a href="switch-edit={{ i.id }}"><i class='fas fa-pencil-alt' style='font-size:20px;color:#CF09A5'></i></a></td>
+
+                </tr>
+                 {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" ><a href="/switch-add/new" class="mt-1 btn btn-info" style="margin:1px;">Аdd New Switch</a></div>
+</div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#myT').DataTable( {
+        "language": {
+            "lengthMenu": "Отображено _MENU_ записей на странице",
+            "zeroRecords": "К сожалению, записей не найдено",
+            "info": "Показана  страница _PAGE_ с _PAGES_",
+            "infoEmpty": "Нет записей",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+                        "search": "Живой фильтр:",
+                        "paginate": {
+                                "first":      "Первая",
+                                "last":       "Последняя",
+                                "next":       "Следующая",
+                                "previous":   "Предыдущая"
+                        },
+        },
+        "scrollX": true,
+        "scrollCollapse": true,
+        "sScrollXInner": "100%",
+        "xScrollXInner": "100%",
+                "lengthMenu": [[ 30,50,100, -1], [30, 50, 100, "Все"]]
+    });
+});
+</script>
+{% endblock %}

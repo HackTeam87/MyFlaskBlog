@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 
-
 <div class="tab-content">
     <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
         <div class="row">
@@ -11,7 +10,7 @@
                       <h5 class="card-title">Add-Post</h5>
                         <form action="/post-add" method="post" enctype="multipart/form-data"  >
                            <input name="title"  placeholder="title" type="text" class="form-control">
-                           <textarea name="body" id="editor" type="text" rows="5" class=""></textarea>
+                           <textarea name="body" id="editor" type="text" rows="7" cols="15" class=""></textarea>
                            <input name="image"  type="file" class="form-control-file">
                             </div>
                             <button class="mt-1 btn btn-info" type="submit">Add</button>
@@ -23,17 +22,33 @@
     </div>
 </div>
 
-                <script>
-                        ClassicEditor
-                                .create( document.querySelector( '#editor' ) )
-                                .then( editor => {
-                                        console.log( editor );
-                                } )
-                                .catch( error => {
-                                        console.error( error );
-                                } );
-                </script>
+
+<script type="text/javascript">
+    tinymce.init({
+    selector: '#editor',
+    plugins: [
+      'autoresize',
+      'advlist autolink link image imagetools lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality template paste textcolor codesample','paste'
+    ],
+    imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons | codesample | edit',
+    images_upload_url: '{{ url_for('posts.imageuploader') }}',
+    automatic_uploads: true,
+    images_reuse_filename: false,
+    images_upload_base_path: '',
+    codesample_languages: [
+      {text: 'HTML/XML', value: 'markup'},
+      {text: 'JavaScript', value: 'javascript'},
+      {text: 'CSS', value: 'css'},
+      {text: 'Processing', value: 'processing'},
+      {text: 'Python', value: 'python'}
+    ],
+    });
+</script>
 
 
+  
 
 {% endblock  %}

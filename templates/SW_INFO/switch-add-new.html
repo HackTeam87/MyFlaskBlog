@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="main-card mb-3 card">
+<div class="col-xs-10 col-sm-12 col-md-10 col-lg-10">
+<h4>Add Switch</h4>
+<hr>
+<form  method="post" action="/switch-add">
+  <div  class="form-group row">
+    <label for="№_Sw" class="col-sm-4 col-form-label" style="font-size:1.4em;">№_Sw:</label>
+    <div class="col-sm-8">
+      <select name="sw"  placeholder="№_sw" type="text" class="form-control">
+        <option  selected >---</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="Ip" class="col-sm-4 col-form-label" style="font-size:1.4em;">Ip:</label>
+    <div class="col-sm-8">
+        <input name="ip"  placeholder="10.0.0.0" type="text" class="form-control" required >
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="Location" class="col-sm-4 col-form-label" style="font-size:1.4em;">Location:</label>
+    <div class="col-sm-8">
+      <input name="location" pattern="[A-Za-z]{1,}" placeholder="location" type="text" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="Presence" class="col-sm-4 col-form-label" style="font-size:1.4em;">Presence:</label>
+    <div class="col-sm-8">
+      <select name="presence" id="precence" placeholder="presence" type="text" class="form-control">
+        <option  selected >---</option>
+        <option>-</option>
+        <option>+</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="Fixed-Vlan" class="col-sm-4 col-form-label" style="font-size:1.4em;">Fixed-Vlan:</label>
+    <div class="col-sm-8">
+      <input name="fvlan" id="fvlan" placeholder="fixed-vlan" type="text" class="form-control">
+    </div>
+  </div>
+
+
+  <div class="form-group row">
+    <label for="Model" class="col-sm-4 col-form-label" style="font-size:1.4em;">Model:</label>
+    <div class="col-sm-8">
+       <input name="model" id="model" placeholder="model" type="text" class="form-control">
+    </div>
+  </div>
+
+
+
+
+<div class="form-group row">
+
+    <div class="col-md-10">
+       <a href="/switch-info" class="btn btn-info" style="margin:2px;">Return to  Switch-list</a>
+    </div>
+
+    <div class="col-md-2">
+       <button type="submit" class="btn btn-info" style="margin:2px;">Add New Switch</button>
+    </div>
+
+</div>
+
+
+</form>
+</div>
+</div>
+
+{% endblock %}

@@ -12,12 +12,12 @@
                        {% for i in post %}
                         <form action="/blog/post-edit={{i.id}}" method="post" enctype="multipart/form-data"  >
                            <input name="title" value="{{ i.title|safe }}"  placeholder="title" type="text" class="form-control">
-                           <textarea name="body" id="editor" type="text" rows="5" class=""></textarea>
+                           <textarea name="body" id="post" type="text" rows="5" class="">{{ i.body|safe }}</textarea>
                            <input name="image" id="file"  type="file" class="form-control-file">
                             </div>
                             <button class="mt-1 btn btn-info" type="submit">Add</button>
                         </form>
-                       <script>document.getElementById("editor").value = "{{ i.body|safe }}";</script>
+                      <!-- <script>document.getElementById("post").value = "{{ i.body }}";</script>-->
                        {% endfor %}
                     </div>
                 </div>
@@ -26,22 +26,32 @@
     </div>
 </div>
 
- <script>
-                       
- ClassicEditor
-        
-       .create( document.querySelector( '#editor' ),{
-       ckfinder: {
-        uploadUrl: 'static/img/blogimgage/ckeditor'
-    } }
-)
-                               
-        .then( editor => { console.log( editor );  } )
-                                .catch( error => {
-                                        console.error( error );
-                                } );
- </script>
 
+
+<script type="text/javascript">
+    tinymce.init({
+    selector: '#post',
+    plugins: [
+      'autoresize',
+      'advlist autolink link image imagetools lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality template paste textcolor codesample'
+    ],
+    imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons | codesample',
+    images_upload_url: '{{ url_for('posts.imageuploader') }}',
+    automatic_uploads: true,
+    images_reuse_filename: false,
+    images_upload_base_path: '/',
+    codesample_languages: [
+      {text: 'HTML/XML', value: 'markup'},
+      {text: 'JavaScript', value: 'javascript'},
+      {text: 'CSS', value: 'css'},
+      {text: 'Processing', value: 'processing'},
+      {text: 'Python', value: 'python'}
+    ]
+    });
+</script>
 
 
 {% endblock  %}

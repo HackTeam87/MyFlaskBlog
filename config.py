@@ -1,9 +1,10 @@
 class Configuration(object):
     DEBUG = True
     UPLOAD_FOLDER = '/home/grin/generator/static/img/blogimgage'
+    BLOG_UPLOAD_FOLDER = '/home/grin/generator/blog/static/files/'
 #    MYSQL_DATABASE_CHARSET = 'utf8mb4'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://grin:golden1306!@localhost/blog?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://grin:golden1306!@localhost/blog'
     SECRET_KEY = '12345'
 
     ### Flask-security

@@ -1,22 +1,18 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import subprocess
 import telnetlib
-import pdfkit
+#from app import *
 from app import app
-from flask import render_template, request, flash, session, url_for, redirect, jsonify
+from app import db
+from flask import render_template, request, flash, session, url_for, redirect, make_response, jsonify
+import pdfkit
 #from flask import send_file, send_from_directory, safe_join, abort, jsonify
 import pymysql.cursors
 import pymysql
-from models import User
+from models import User, SwInfo, VlanInfo
 from flask_security import login_required
-
-conn = ( pymysql.connect(host = 'localhost',
-                             user = 'grin',
-                             password = 'golden1306!',
-                             database = 'switch-info',
-                             charset='utf8' ) )
-cursor = conn.cursor()
 
 
 @app.route("/login",methods = ['POST', 'GET'])
@@ -26,15 +22,10 @@ def login():
 
     user = User.query.filter_by(login=login, password=password).first()
     if not user:
-       # flash('Please enter correct data')
+        flash('Please enter correct data')
         return render_template('login.html')
     return render_template('index.html')
 
-
-@app.route("/books/<name>/<location>")
-def book(name,location):
-    pdf = pdfkit.from_string(FILE_STORAGE,False)
-    return render_template('book.html')
 
 
 @app.route("/shell",methods = ['POST', 'GET'])
@@ -49,35 +40,43 @@ def shell():
 def vagrant():
     ip = request.form.get('ip')
     command = request.form.get('command')
-    command_success = 'python command.py'+' ' + str(ip) + ' ' +  '"' + command + '"'
+    command_success = 'python scripts/command.py'+' ' + str(ip) + ' ' +  '"' + command + '"'
     result = subprocess.check_output(
                 [command_success], shell=True)
     print(result)
     return render_template('top.html', result=result)
 
 
-
+#Resume
 @app.route('/summary')
 def resume():
 
     return render_template('index.html', title='Resume')
 
 
+@app.route('/summary/pdf')
+def pdf():
+    rendered = render_template('test.html')
+    pdf = pdfkit.from_string(rendered,False)
+    response = make_response(pdf)
+    response.headers['Content-Type'] ='application/pdf'
+    response.headers['Content-Disposition'] ='attachment; filename=output.pdf'
 
+    return response
+
+
+
+#Generator
 @app.route('/generator')
+@login_required
 def config():
-    
+
     return render_template('config.html', title='Generator')
-
-
-@app.route('/flash')
-def flash():
-    flash('You were successfully logged in')
-    return render_template('flash.html')
 
 
 
 @app.route('/get-config', methods = ['POST'])
+@login_required
 def getconfig():
     vlanext = request.form.get('vlanext')
     vlanextid = request.form.get('vlanextid')
@@ -120,6 +119,8 @@ def vlanlist():
                              ORDER  by 2,4'''
     cursor.execute(mySql_select_Query)
     return render_template('vlan-list.html', cursor=cursor)
+    cursor.close()
+    conn.close()
 
 
 @app.route("/get-image/<image_name>")
@@ -130,15 +131,20 @@ def get_image(image_name):
     except FileNotFoundError:
         abort(404)
 
+#SWITCH_INFO
 
-
-
-@app.route("/switch-info")
+@app.route("/switch-info" ,methods = ['POST', 'GET'])
 def swinfo():
-    mySql_select_Query = 'SELECT * FROM `sw-info`'
+    sw = SwInfo.query.all()
+    return render_template('SW_INFO/switch-info.html',sw=sw)
 
-    cursor.execute(mySql_select_Query)
-    return render_template('switch-info.html',cursor=cursor)
+
+
+@app.route("/switch-add/new",methods = ['POST', 'GET'])
+@login_required
+def swnew():
+
+    return render_template('SW_INFO/switch-add-new.html')
 
 
 
@@ -146,6 +152,7 @@ def swinfo():
 @app.route("/switch-add",methods = ['POST', 'GET'])
 @login_required
 def swadd():
+
     sw = request.form.get('sw')
     ip = request.form.get('ip')
     location = request.form.get('location')
@@ -153,35 +160,136 @@ def swadd():
     fvlan = request.form.get('fvlan')
     model = request.form.get('model')
 
-    sql = '''INSERT INTO `switch-info`.`sw-info`(`sw`, `ip`, `location`, `presence`, `fixed-vlan`, `model`)
-             VALUES (%s, %s, %s, %s, %s, %s)'''
-    cursor.execute(sql, [sw, ip, location, presence, fvlan, model])
-    conn.commit()
-    return redirect("https://grin.golden.net.ua/switch-info")
+    s = SwInfo(sw=sw, ip=ip, location=location, presence=presence, fixed_vlan=fvlan, model=model)
+    db.session.add(s)
+    db.session.commit()
+    return redirect(url_for('swinfo'))
 
 
-@app.route("/switch-edit=<int:id>")
+@app.route("/switch-edit=<int:id>",methods = ['POST', 'GET'])
 @login_required
 def swedit(id):
-    cursor.execute('SELECT * FROM `sw-info` WHERE id= %s;',(id))
-    return render_template('switch-edit.html',cursor=cursor)
+    switches = SwInfo.query.filter(SwInfo.id == id)
+    return render_template('SW_INFO/switch-edit.html',switches=switches)
 
 
 @app.route("/switch-update",methods = ['POST', 'GET'])
 @login_required
 def swupdate():
-    sw = request.form.get('sw')
-    ip = request.form.get('ip')
-    location = request.form.get('location')
-    presence = request.form.get('presence')
-    fvlan = request.form.get('fvlan')
-    model = request.form.get('model')
-    id = request.form.get('id')
 
-    sql = '''UPDATE `switch-info`.`sw-info` SET `sw`= %s, `ip`= %s, `location`= %s, `presence`= %s, `fixed-vlan`= %s, `model`= %s  WHERE `id` = %s'''
-    cursor.execute(sql, [sw, ip, location, presence, fvlan, model, id])
-    conn.commit()
-    return redirect("https://grin.golden.net.ua/switch-info")
+    if request.method == 'POST':
+        id = request.form.get('id')
+        sw = request.form.get('sw')
+        ip = request.form.get('ip')
+        location = request.form.get('location')
+        presence = request.form.get('presence')
+        fvlan = request.form.get('fvlan')
+        model = request.form.get('model')
+
+        s = SwInfo.query.filter(SwInfo.id == id).first()
+        s.sw = sw
+        s.ip = ip
+        s.location = location
+        s.presence = presence
+        s.fixed_vlan = fvlan
+        s.model = model
+        db.session.commit()
+
+    return redirect(url_for('swinfo'))
+
+#VLAN_INFO
+
+@app.route("/switch-vlan" ,methods = ['POST', 'GET'])
+def vinfo():
+    vlan = VlanInfo.query.all()
+    return render_template('VLAN_INFO/switch-vlan.html',vlan=vlan)
 
 
+@app.route("/switch-vlan/new" ,methods = ['POST', 'GET'])
+def vnew():
+
+    return render_template('VLAN_INFO/switch-vlan-new.html')
+
+@app.route("/switch-vlan/add" ,methods = ['POST', 'GET'])
+def vadd():
+
+    if request.method == 'POST':
+        vlanid = request.form.get('vlanid')
+        vlanname = request.form.get('vlanname')
+        network = request.form.get('network')
+        group = request.form.get('group')
+        desc = request.form.get('desc')
+       
+        v = VlanInfo(vlanid=vlanid, vlanname=vlanname, network=network, group=group, desc=desc)
+        db.session.add(v)
+        db.session.commit()
+
+
+    return redirect(url_for('vinfo'))
+
+
+@app.route("/vlan-edit=<int:id>",methods = ['POST', 'GET'])
+@login_required
+def vedit(id):
+    vlan = VlanInfo.query.filter(VlanInfo.id == id)
+    return render_template('VLAN_INFO/switch-vlan-edit.html',vlan=vlan)
+
+
+
+@app.route("/switch-vlan/edit",methods = ['POST', 'GET'])
+@login_required
+def vupdate():
+
+    if request.method == 'POST':
+        id = request.form.get('id')
+        vlanid = request.form.get('vlanid')
+        vlanname = request.form.get('vlanname')
+        network = request.form.get('network')
+        group = request.form.get('group')
+        desc = request.form.get('desc')
+
+        v = VlanInfo.query.filter(VlanInfo.id == id).first()
+        v.vlanid = vlanid
+        v.vlanname = vlanname
+        v.network = network
+        v.group = group
+        v.desc = desc
+        db.session.commit()
+
+    return redirect(url_for('vinfo'))
+
+
+
+
+
+
+#OLT_INFO
+
+@app.route("/olt/pon/",methods = ['POST', 'GET'])
+def pon():
+
+    port = request.args.get('port')
+    vlan = request.args.get('vlan')
+
+    try:
+        command_success = 'python scripts/olt.py' 
+        result = subprocess.check_output(
+                [command_success], shell=True)
+    except:
+        pass
+
+    try:
+        if len(port) > 0 and len(vlan) > 0:
+            flash('ONU Successfully Registered')
+        command_success2 = 'python scripts/pon55.py' + ' ' + str(port) + ' ' + str(vlan)
+        result2 = subprocess.check_output(
+                [command_success2], shell=True)
+    except:
+        pass
+    return render_template('olt.html', result=result)
+
+@app.route('/switch-vlan')
+def svlan():
+
+    return render_template('switch-vlan.html', title='SVlan')
 

@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div class="col-md-offset-6 col-md-6">
+<div class="main-card mb-3 card col-md-offset-6 col-md-6">
   <div class="card-body">
     <h5 class="card-title">Admin</h5>
       
@@ -18,9 +17,6 @@
   {{ render_field(login_user_form.submit ,class='btn btn-info') }}
 </form>
 {% include "security/_menu.html" %}
-
-
-
 
     </div>
 </div>

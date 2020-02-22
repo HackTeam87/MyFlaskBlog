@@ -57,4 +57,34 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post id: {}, title: {}>'.format(self.id, self.title)
-        
+
+
+
+
+class SwInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sw = db.Column(db.String(140))
+    ip = db.Column(db.String(140), unique=True)
+    location = db.Column(db.String(140))
+    presence = db.Column(db.String(140))
+    fixed_vlan = db.Column(db.String(140))
+    model = db.Column(db.String(140))
+    created = db.Column(db.DateTime, default=datetime.now())
+
+    def __repr__(self):
+        return '<SwInfo id: {}, sw: {}>'.format(self.id, self.sw)
+
+
+class VlanInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    vlanid = db.Column(db.Integer)
+    vlanname = db.Column(db.String(100), unique=True)
+    network = db.Column(db.String(50))
+    group = db.Column(db.String(140))
+    desc = db.Column(db.String(140))
+    created = db.Column(db.DateTime, default=datetime.now())
+
+    def __repr__(self):
+        return '<SwInfo id: {}, vlanname: {}>'.format(self.id, self.vlanname)
+
+

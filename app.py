@@ -9,7 +9,7 @@ sslify = SSLify(app)
 app.config.from_object(Configuration)
 db = SQLAlchemy(app)
 ### db = app.config['SQLALCHEMY_DATABASE_URI']
-
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 ### Flask-security
 
 from models import *

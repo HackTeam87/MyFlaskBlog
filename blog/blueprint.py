@@ -1,9 +1,12 @@
 import os
 from app import *
-from flask import Blueprint, render_template, request, url_for, redirect, flash, jsonify
+from flask import Blueprint, render_template, request, url_for, send_from_directory, redirect, flash, jsonify
 from models import  Post
 from sqlalchemy import asc, desc
+from flask_security import login_required
+from random import sample
 ###  Upload_files
+#from flask_ckeditor import CKEditor
 from werkzeug.utils import secure_filename
 POSTS_PER_PAGE = 1
 
@@ -18,27 +21,54 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@posts.route('/json')
-def json():
 
-    results = [
-        {
-          "rec_create_date": "12 Jun 2016",
-          "rec_dietary_info": "nothing",
-          "rec_dob": "01 Apr 1988",
-          "rec_first_name": "New",
-          "rec_last_name": "Guy",
-        },
-        {
-          "rec_create_date": "1 Apr 2016",
-          "rec_dietary_info": "Nut allergy",
-          "rec_dob": "01 Feb 1988",
-          "rec_first_name": "Old",
-          "rec_last_name": "Guy",
-        },
-    ]
 
-    return jsonify(results)
+@posts.route('/imageuploader', methods=['GET','POST'])
+def imageuploader():
+    file = request.files.get('file')
+    if file:
+        filename = file.filename.lower()
+        fn, ext = filename.split('.')
+        if ext in ['jpg', 'pdf', 'gif', 'png', 'jpeg']:
+            img_fullpath = os.path.join(app.config['BLOG_UPLOAD_FOLDER'], filename)
+           # img_fullpath = app.config['BLOG_UPLOAD_FOLDER'] + filename
+            print(img_fullpath)
+            file.save(img_fullpath)
+            return jsonify({'location' : filename})
+
+    # fail, image did not upload
+    output = make_response(404)
+    output.headers['Error'] = 'Image failed to upload'
+    return output
+
+
+@posts.route('/<path:filename>')
+@posts.route('/blog/<path:filename>')
+def custom_static(filename):
+    return send_from_directory('/home/grin/generator/blog/static/files', filename)
+    #return send_from_directory(directory=app.config['UPLOAD_FOLDER'], filename=filename)
+
+
+@posts.route('/chart')
+def charts():
+
+     return render_template('posts/chart.html')
+
+
+@posts.route('/editor')
+def editor():
+
+     return render_template('posts/editor.html')
+
+
+
+@posts.route('/data')
+def data():
+
+    return jsonify({'results' : sample(range(1,20),15)})
+
+
+
 
 
 @posts.route('/')
@@ -55,16 +85,23 @@ def allp():
     else:
         posts = Post.query.order_by(Post.created.desc())
 
-    pages = posts.paginate(page=page, per_page=5)
+    pages = posts.paginate(page=page, per_page=8)
    # article = Post.query.order_by(desc(Post.created)).paginate(page, POSTS_PER_PAGE, False).items
 
     return render_template('posts/all-posts.html', posts=posts, pages=pages )
 
 
+#Domofon
+@posts.route('blog/phone')
+def phone():
+
+    domofon = Post.query.filter(Post.id == '159')
+    return render_template('posts/domofon.html', title='Domofon', domofon=domofon)
 
 
 
-@posts.route('/blog/one-post=<int:id>',methods = ['GET', 'POST'])
+@posts.route('blog/one-post=<int:id>',methods = ['GET', 'POST'])
+@login_required
 def ps(id):
     articles = Post.query.filter(Post.id == id)
 
@@ -140,6 +177,7 @@ def pedit(id):
 
 
 @posts.route("/blog/delete-post=<int:id>")
+@login_required
 def deletep(id):
     p = Post.query.filter(Post.id == id).delete()
     db.session.commit()
