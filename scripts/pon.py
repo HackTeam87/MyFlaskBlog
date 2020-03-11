@@ -6,8 +6,8 @@ import telnetlib
 
 host = '10.5.1.2'
 
-user = 'service'
-password = 'billing'
+user = '***'
+password = '***'
 
 
 try:

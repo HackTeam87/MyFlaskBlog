@@ -6,6 +6,7 @@
           <h5 class="card-title">add info</h5>
             <form class="" action="/get-config" method="post">
                 <div class="position-relative form-group">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input name="vlanext"  placeholder="vlanExt" type="text" class="form-control">
                     <input name="vlanextid"  placeholder="vlanExtId" type="text" class="form-control">
                     <input name="vlannat"  placeholder="vlanNat" type="text" class="form-control">

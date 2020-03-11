@@ -14,6 +14,8 @@ import pymysql
 from models import User, SwInfo, VlanInfo
 from flask_security import login_required
 
+import numpy as np
+import matplotlib.pyplot as plt
 
 @app.route("/login",methods = ['POST', 'GET'])
 def login():
@@ -35,6 +37,8 @@ def shell():
 
 
 
+
+
 @app.route("/vagrant",methods = ['POST', 'GET'])
 @login_required
 def vagrant():
@@ -47,11 +51,104 @@ def vagrant():
     return render_template('top.html', result=result)
 
 
+@app.route("/shelline",methods = ['POST', 'GET'])
+@login_required
+def shelline():
+    return  redirect('https://185.190.150.10:8085/')
+
+
+
+
+@app.route("/graff",methods = ['POST', 'GET'])
+def graff():
+
+    rng = np.arange(50)
+    rnd = np.random.randint(0, 10, size=(3, rng.size))
+    yrs = 1950 + rng
+
+    fig, ax = plt.subplots(figsize=(5, 3))
+    ax.stackplot(yrs, rng + rnd, labels=['Eastasia', 'Eurasia', 'Oceania'])
+    ax.set_title('Combined debt growth over time')
+    ax.legend(loc='upper left')
+    ax.set_ylabel('Total debt')
+    ax.set_xlim(xmin=yrs[0], xmax=yrs[-1])
+    fig.tight_layout()
+
+    render_template('graff.html', result=plt.show())
+
+
+
+
+#Reboot
+@app.route('/reboot',methods = ['POST', 'GET'])
+@login_required
+def reboot():
+    conn = ( pymysql.connect(host = '***',
+                             user = '***',
+                             password = '***',
+                             database = '***',
+                             charset='utf8' ) )
+
+    cursor = conn.cursor()
+    mySql_select_Query = '''SELECT * FROM `equipment_group` ORDER BY `name`'''
+    cursor.execute(mySql_select_Query)
+
+
+    return render_template('REBOOT/reboot.html', title='Reboot', cursor=cursor)
+    cursor.close()
+    conn.close()
+
+
+@app.route('/reboot/action/group',methods = ['POST','GET'])
+def rebootaction():
+    branch = request.args.get('branch')
+
+    try:
+        if len(branch):
+            flash('Branch Successfully Reboot')
+        command_success = 'python scripts/RebootGroup.py' + ' ' + str(branch) 
+        result = subprocess.check_output(
+                [command_success], shell=True)
+    except:
+        pass
+
+    return redirect(url_for('reboot'))
+
+
+
+@app.route('/reboot/action/one',methods = ['POST','GET'])
+def rebootactionone():
+    ip = request.args.get('ip')
+
+    try:
+        if len(ip):
+            flash('Switch Successfully Reboot')
+        command_success = 'python scripts/Reboot.py' + ' ' + str(ip)
+        result = subprocess.check_output(
+                [command_success], shell=True)
+    except:
+        pass
+
+    return redirect(url_for('reboot'))
+
+
+
+
+#Ajax
+@app.route('/ajax',methods = ['POST','GET'])
+def ajax():
+
+    return render_template('AJAX/ajax.html', title='Ajax')
+
+
+
+
+
 #Resume
 @app.route('/summary')
 def resume():
 
-    return render_template('index.html', title='Resume')
+    return render_template('RESUME/resume.html', title='Resume')
 
 
 @app.route('/summary/pdf')
@@ -97,10 +194,10 @@ def getconfig():
 @app.route('/vlan-list')
 @login_required
 def vlanlist():
-    conn = ( pymysql.connect(host = '185.190.150.7',
-                             user = 'script',
-                             password = 'golden1306!',
-                             database = 'service',
+    conn = ( pymysql.connect(host = '***',
+                             user = '***',
+                             password = '***',
+                             database = '***',
                              charset='utf8' ) )
 
     cursor = conn.cursor()
@@ -281,7 +378,7 @@ def pon():
     try:
         if len(port) > 0 and len(vlan) > 0:
             flash('ONU Successfully Registered')
-        command_success2 = 'python scripts/pon55.py' + ' ' + str(port) + ' ' + str(vlan)
+        command_success2 = 'python scripts/pon.py' + ' ' + str(port) + ' ' + str(vlan)
         result2 = subprocess.check_output(
                 [command_success2], shell=True)
     except:

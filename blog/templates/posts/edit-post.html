@@ -11,6 +11,7 @@
                       <h5 class="card-title">Edit-Post</h5>
                        {% for i in post %}
                         <form action="/blog/post-edit={{i.id}}" method="post" enctype="multipart/form-data"  >
+                           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                            <input name="title" value="{{ i.title|safe }}"  placeholder="title" type="text" class="form-control">
                            <textarea name="body" id="post" type="text" rows="5" class="">{{ i.body|safe }}</textarea>
                            <input name="image" id="file"  type="file" class="form-control-file">

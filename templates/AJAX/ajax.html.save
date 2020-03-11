@@ -1,0 +1,38 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<form method="post" id="ajax_form" action="" >
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input type="text" name="name" placeholder="NAME" /><br>
+        <input type="text" name="phonenumber" placeholder="YOUR PHONE" /><br>
+        <input type="button" id="btn" value="Отправить" />
+</form>
+
+    <br>
+
+<div id="result_form"></div> 
+
+
+<script>
+
+$('#btn').click(function(event){
+    // Prevent redirection with AJAX for contact form
+
+    var form = $('#ajax_form');
+    var form_id = 'ajax_form';
+    var url = form.prop('action');
+    var type = form.prop('method');
+    var formData = getContactFormData(form_id);
+
+    // submit form via AJAX
+
+    send_form(form, form_id, url, type, modular_ajax, formData);
+});
+
+function getContactFormData(form) {
+    // creates a FormData object and adds chips text
+    var formData = new FormData(document.getElementById(form));
+//    for (var [key, value] of formData.entries()) { console.log('formData', key, value);}
+    return formData
+}
+
+</script>

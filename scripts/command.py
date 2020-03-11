@@ -8,8 +8,8 @@ COMMAND=str((sys.argv[2]))
 print(COMMAND)
 
 def vg(*args):
-    user = 'service'
-    password = 'billing'
+    user = '***'
+    password = '***'
     tn = telnetlib.Telnet(IP)
     tn.write(user + '\n')
     tn.write(password + '\n')

@@ -9,6 +9,7 @@
 <form  method="post" action="/switch-vlan/edit">
 {% for i in vlan %}
   <div  class="form-group row">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <label for="Vlanid" class="col-sm-4 col-form-label" style="font-size:1.4em;">Vlanid:</label>
     <div class="col-sm-8">
       <input type="hidden" name="id"  value="{{ i.id }}"  class="form-control" >
@@ -48,12 +49,12 @@
 
 <div class="form-group row">
 
-    <div class="col-md-10">
-       <a href="/switch-vlan" class="btn btn-info" style="margin:2px;">Return to  Vlan-list</a>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+       <a href="/switch-vlan" class="btn btn-info btn-md btn-block" style="margin:2px;">Return to  Vlan-list</a>
     </div>
 
-    <div class="col-md-2">
-       <button type="submit" class="btn btn-info" style="margin:2px;">Edit This Vlan</button>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+       <button type="submit" class="btn btn-info btn-md btn-block" style="margin:2px;">Edit This Vlan</button>
     </div>
 
 </div>

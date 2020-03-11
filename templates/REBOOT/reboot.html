@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+
+<div class="main-card mb-3 card ">
+<div class="card-body ">
+
+<div class="row">
+
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-success" role="alert" id="myAlert">
+  <h6>{{ message }}</h6>
+</div>
+{% endfor %}
+
+<form action="/reboot/action/group" method="get" style="margin-bottom:8px;">
+    <div class="form-group" >
+      <select style="font-size:1.2em;color:coral;" class="browser-default custom-select" name="branch" >
+         <option selected disabled>Выберите Ветку</option>
+         {% for i in cursor %}
+         <option value="{{ i[0] }}">{{ i[1] }}</option>
+         {% endfor %}
+      </select>
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-danger  btn-md btn-block" >Reboot Branch</button>
+</form>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+<p style="font-size:1.3em;color:#c3c3c3;">Выберите Ветку которую хотите перегрузить</p>
+<hr>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" >
+<form action="/reboot/action/one" method="get" style="margin-bottom:8px;">
+    <div class="form-group">
+      <input type="text" class="form-control"  placeholder="10.0.0.0" name="ip"  required>
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-danger  btn-md btn-block" >Reboot Switch</button>
+</form>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+<p style="font-size:1.3em;color:#c3c3c3;">Внесите ip address свитча который хотите перегрузить</p>
+<hr>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function () {
+
+window.setTimeout(function() {
+    $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+        $(this).remove();
+    });
+}, 3000);
+
+});
+</script>
+
+
+
+{% endblock %}

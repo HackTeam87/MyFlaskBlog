@@ -9,6 +9,7 @@
                     <div class="card-body">
                       <h5 class="card-title">Add-Post</h5>
                         <form action="/post-add" method="post" enctype="multipart/form-data"  >
+                           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                            <input name="title"  placeholder="title" type="text" class="form-control">
                            <textarea name="body" id="editor" type="text" rows="7" cols="15" class=""></textarea>
                            <input name="image"  type="file" class="form-control-file">

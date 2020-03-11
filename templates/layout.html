@@ -7,36 +7,41 @@
     <meta http-equiv="Content-Language" content="en"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-     {% if title %}
-        <title>{{ title }} - GrinBlog</title>
-        {% else %}
-        <title>Welcome to GrinBlog!</title>
-     {% endif %}
+    {% if title %}
+    <title>{{ title }} - GrinBlog</title>
+    {% else %}
+    <title>Welcome to GrinBlog!</title>
+    {% endif %}
 
 
-    <meta name="viewport"content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"/>
     <meta name="description" content="Заметки системного администратора|System Administrator Notes"/>
     <meta name="msapplication-tap-highlight" content="no"/>
     <meta property="og:image" content="https://pbs.twimg.com/media/DzJ9uqGWsAIc_QA.jpg"/>
 
-    <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='css/main2.css') }}">
-   <!-- <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='css/custom.css') }}">-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <!-- <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='css/custom.css') }}">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/tinymce/tinymce.min.js') }}"></script>
-  <!--  <link type="text/css" rel="stylesheet" href="../static/css/blue.css" /> -->
-  <!--  <link type="text/css" rel="stylesheet" href="../static/css/print.css" media="print"/> -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!--  <link type="text/css" rel="stylesheet" href="../static/css/blue.css" /> -->
+    <!--  <link type="text/css" rel="stylesheet" href="../static/css/print.css" media="print"/> -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
 
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
     <div class="app-header header-shadow">
         <div class="app-header__logo">
-           <a href="/"> <div class="logo-src"></div></a>
+            <a href="/">
+                <div class="logo-src"></div>
+            </a>
             <div class="header__pane ml-auto">
                 <div>
                     <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
@@ -77,7 +82,7 @@
                     <button class="close"></button>
                 </div>
                 <ul class="header-menu nav">
-                   
+
                     <li class="dropdown nav-item">
                         <a href="/logout" class="nav-link">
                             <i class="nav-link-icon fa fa-cog"></i>
@@ -128,31 +133,28 @@
                 <div class="app-sidebar__inner">
                     <ul class="vertical-nav-menu">
                         <li class="app-sidebar__heading">Dashboards</li>
-                          
 
 
+                        <li>
+                            <a href="#" class="mm-active">
+                                <i class="fas fa-blog"></i>
+                                Блог
+                            </a>
+                            <ul>
 
-                          <li>
-                             <a href="#" class="mm-active">
-                               <i class="fas fa-blog"></i>
-                                 Блог          
-                              </a>
-                                  <ul>
-
-                                     <li>
-                                       <a href="/" >
-                                          Главная
-                                        </a>
-                                      </li>
+                                <li>
+                                    <a href="/">
+                                        Главная
+                                    </a>
+                                </li>
 
 
-                                     
-                                     <li>
-                                       <a href="/new-post" >
-                                          Добавить статью
-                                        </a>
-                                      </li>
-                                   </ul>
+                                <li>
+                                    <a href="/new-post">
+                                        Добавить статью
+                                    </a>
+                                </li>
+                            </ul>
                         <li>
                             <a href="/summary" class="">
                                 <i class="fa fa-file-text"></i>
@@ -160,7 +162,7 @@
                             </a>
                         </li>
 
-                         <li>
+                        <li>
                             <a href="/chart" class="">
                                 <i class="fa fa-line-chart" style="color:red;"></i>
                                 Графики
@@ -168,107 +170,111 @@
 
                         </li>
 
-                         <li>
+                        <li>
                             <a href="#" class="mm-active">
                                 <i class="fa fa-phone" style="color:red;"></i>
                                 Домофон
                             </a>
 
-                            
-                             <ul>
-                              <li>
-                                <a href="/blog/phone" class="">
-                                  <i class="fas fa-city"></i>
-                                   Евросити
-                                 </a>
-                               </li>
-                             </ul>
 
-
+                            <ul>
+                                <li>
+                                    <a href="/blog/phone" class="">
+                                        <i class="fas fa-city"></i>
+                                        Евросити
+                                    </a>
+                                </li>
+                            </ul>
 
 
                         </li>
-                    
 
-                       <li>
-                             <a href="#" class="mm-active">
-                               <i class="fas fa-list"></i>
+
+                        <li>
+                            <a href="#" class="mm-active">
+                                <i class="fas fa-list"></i>
                                 NetworkManager
-                              </a>
-                                  <ul>
-                                     
-
-
-                                    <li>
-                                      <a href="/generator" class="">
-                                      <i class="fa fa-wrench"></i>
-                                      Генератор конфига
-                                      </a>
-                                    </li>
-
-
-                        <li>
-                            <a href="/switch-info" class="">
-                                <i class="fas fa-network-wired"></i>
-                                Свитч инфо
                             </a>
-                        </li>
-         
+                            <ul>
+
+
+                                <li>
+                                    <a href="/generator" class="">
+                                        <i class="fa fa-wrench"></i>
+                                        Генератор конфига
+                                    </a>
+                                </li>
+
+
+                                <li>
+                                    <a href="/switch-info" class="">
+                                        <i class="fas fa-network-wired"></i>
+                                        Свитч инфо
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/switch-vlan" class="">
+                                        <i class="fas fa-network-wired"></i>
+                                        Влан инфо
+                                    </a>
+                                </li>
+
+
+                                <li>
+                                    <a href="/vlan-list" class="">
+                                        <i class="fas fa-broadcast-tower"></i>
+                                        Перечень влан
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/olt/pon" class="">
+                                        <i class="fa fa-arrows-alt"></i>
+                                        PON
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/reboot" class="">
+                                        <i class="fa fa-refresh"></i>
+                                        RebootSwitch
+                                    </a>
+                                </li>
+
+
+                                <li>
+                                    <a href="/shelline" class="">
+                                        <i class="fa fa-terminal"></i>
+                                        Terminal
+                                    </a>
+                                </li>
+
+
+                            </ul>
                         <li>
-                            <a href="/switch-vlan" class="">
-                                <i class="fas fa-network-wired"></i>
-                                Влан инфо
-                            </a>
-                        </li>
-
-
-
-                        <li>
-                            <a href="/vlan-list" class="">
-                                <i class="fas fa-broadcast-tower"></i>
-                                Перечень влан
-                            </a>
-                        </li>
-
-                          <li>
-                            <a href="/olt/pon" class="">
-                                <i class="fa fa-arrows-alt"></i>
-                                PON
-                            </a>
-                        </li>
-
-
-                        <li>
-                            <a href="/shell" class="">
-                                <i class="fas fa-blind"></i>
-                                Бродилка
-                            </a>
-                        </li>
-
-
-
-                                   </ul>
-                        <li>
-
-
-
 
 
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="app-main__outer">
+        <div class="app-main__outer col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="app-main__inner">
 
-                       {% block content %}
+                {% block content %}
 
-                       {% endblock %}
-                
+                {% endblock %}
+
             </div>
+        </div>
 
-
-            <div class="app-wrapper-footer">
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.tipsy.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/cufon.yui.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/scrollTo.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/myriad.js') }}"></script>
+    </div>
+    <div class="app-wrapper-footer">
                 <div class="app-footer">
                     <div class="app-footer__inner">
                         <div class="app-footer-left">
@@ -281,10 +287,10 @@
                             </ul>
                         </div>
 
-                       <div class="app-footer-right">
+                        <div class="app-footer-right">
                             <ul class="nav">
 
-                                <li class="nav-item">
+                                <li class="nav-item col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                                     <small class="copyright">2020 &copy; Yatsko Grigoriy © 2020</small>
                                 </li>
                             </ul>
@@ -292,12 +298,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.tipsy.js') }}"></script>
-       <script type="text/javascript" src="{{ url_for('static', filename='js/cufon.yui.js') }}"></script>
-       <script type="text/javascript" src="{{ url_for('static', filename='js/scrollTo.js') }}"></script>
-       <script type="text/javascript" src="{{ url_for('static', filename='js/myriad.js') }}"></script>
-    </div>
 </div>
 
 
