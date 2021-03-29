@@ -59,7 +59,7 @@ pyasn1==0.4.8
 pycparser==2.19
 pycrypto==2.6.1
 pycryptodomex==3.9.4
-Pygments==2.2.0
+Pygments==2.7.4
 pygobject==3.26.1
 PyMySQL==0.9.3
 pyparsing==2.4.6
