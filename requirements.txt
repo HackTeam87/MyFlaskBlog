@@ -46,7 +46,7 @@ MarkupSafe==1.1.1
 marshmallow==2.20.5
 matplotlib==2.2.5
 mysql-connector-python==8.0.18
-numpy==1.16.6
+numpy==1.22.0
 passlib==1.7.2
 pathlib2==2.3.0
 pdfkit==0.6.1
